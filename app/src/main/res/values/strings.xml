@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Cuisie</string>
+    <string name="textview">TextView</string>
+    <string name="tour_cost">Tour Cost</string>
 </resources>

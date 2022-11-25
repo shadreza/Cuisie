@@ -2,6 +2,7 @@ package com.example.cuisie;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
@@ -27,11 +28,15 @@ public class SqLiteHelper extends SQLiteOpenHelper {
     private static final String tourMinPocketPinch = "Tour_Min_Pocket_Pinch";
     private static final String tourMinCoveredTime = "Tour_Min_Covered_Time";
 
+
+
     // setting up the database with sending the info
     public SqLiteHelper(@Nullable Context context) {
         super(context, databaseName, null, databaseVersion);
         this.context = context;
     }
+
+
 
     // sql command for creating a table with the features / columns having the names from the variable
     @Override
@@ -46,12 +51,16 @@ public class SqLiteHelper extends SQLiteOpenHelper {
         db.execSQL(query);
     }
 
+
+
     // if we want to upgrade the database / the table then we will be deleting [drop] the previous table if there is any and then creating a new one with the onCreate function
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
         db.execSQL("DROP TABLE IF EXISTS " + tableName);
         onCreate(db);
     }
+
+
 
     // here this function will be trying to add a tour plan with all the necessary values / options and adding to the existing database
     void addTourPlan(String nameOfTourPoint, String locationOfTourPoint, String preferredSeasonForTourPoint, Double minPocketPinchForTourPoint, int minTimeToCoverTourPoint) {
@@ -76,6 +85,30 @@ public class SqLiteHelper extends SQLiteOpenHelper {
         } else {
             Toast.makeText(context, "Alhamdulillah!", Toast.LENGTH_SHORT).show();
         }
+    }
 
+
+
+    // Here we will be returning the elements from the sqlite database
+    // this method will be returning a Cursor object
+    // A Cursor represents the result of a query and basically points to one row of the query result.
+    // This way Android can buffer the query results efficiently; as it does not have to load all data into memory.
+    Cursor readAllData() {
+        // selecting all the rows from the table
+        String query = "SELECT * FROM " + tableName;
+
+        // getting the database and all the values within that
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        Cursor cursor = null;
+
+        // if we see the database is not nul only then we will be executing the query and setting it to cursor
+        if(db != null) {
+            cursor = db.rawQuery(query, null);
+        }
+
+        // returning the result
+        return cursor;
     }
 }
