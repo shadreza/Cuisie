@@ -14,9 +14,14 @@
         android:theme="@style/Theme.Cuisie"
         tools:targetApi="31">
         <activity
-            android:label="Cuisie"
+            android:name=".AddActivity"
+            android:label="Add Tour Plan"
+            android:parentActivityName=".MainActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:label="Tour Mate">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
