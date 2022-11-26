@@ -1,6 +1,7 @@
 package com.example.cuisie;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -24,6 +25,9 @@ public class MainActivity extends AppCompatActivity {
 
     // lists of the information
     ArrayList<String> tourID, tourPoint, tourLocation, tourPreferredSeason, tourMinPocketPinch, tourMinCoveredTime;
+
+    // adding the custom adapter
+    CustomAdapter customAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +56,15 @@ public class MainActivity extends AppCompatActivity {
         tourMinCoveredTime = new ArrayList<>();
 
         storeDataInArrays();
+
+        // setting the custom-adapter
+        customAdapter = new CustomAdapter(MainActivity.this, tourID, tourPoint, tourLocation, tourPreferredSeason, tourMinPocketPinch, tourMinCoveredTime);
+
+        // adding the adapter to the recycler view
+        recyclerView.setAdapter(customAdapter);
+
+        // setting the layout manager
+        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
 
     }
 
