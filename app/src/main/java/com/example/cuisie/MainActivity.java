@@ -1,5 +1,6 @@
 package com.example.cuisie;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -58,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         storeDataInArrays();
 
         // setting the custom-adapter
-        customAdapter = new CustomAdapter(MainActivity.this, tourID, tourPoint, tourLocation, tourPreferredSeason, tourMinPocketPinch, tourMinCoveredTime);
+        customAdapter = new CustomAdapter(MainActivity.this,MainActivity.this, tourID, tourPoint, tourLocation, tourPreferredSeason, tourMinPocketPinch, tourMinCoveredTime);
 
         // adding the adapter to the recycler view
         recyclerView.setAdapter(customAdapter);
@@ -69,6 +70,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            recreate();
+        }
+    }
 
     // this function will be displaying all the data from the database
     void storeDataInArrays() {

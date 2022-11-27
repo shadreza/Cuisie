@@ -63,7 +63,9 @@ public class SqLiteHelper extends SQLiteOpenHelper {
 
 
     // here this function will be trying to add a tour plan with all the necessary values / options and adding to the existing database
-    void addTourPlan(String nameOfTourPoint, String locationOfTourPoint, String preferredSeasonForTourPoint, Double minPocketPinchForTourPoint, int minTimeToCoverTourPoint) {
+    void addTourPlan(String nameOfTourPoint, String locationOfTourPoint,
+                     String preferredSeasonForTourPoint, Double minPocketPinchForTourPoint,
+                     Integer minTimeToCoverTourPoint) {
 
         // getting the database and all the values within that
         SQLiteDatabase db = this.getWritableDatabase();
@@ -110,5 +112,55 @@ public class SqLiteHelper extends SQLiteOpenHelper {
 
         // returning the result
         return cursor;
+    }
+
+
+
+    // function for updating data
+    void updateData(String tour_id, String updatedNameOfTourPoint, String updatedLocationOfTourPoint,
+                    String updatedPreferredSeasonForTourPoint, String updatedMinPocketPinchForTourPoint,
+                    String updatedMinTimeToCoverTourPoint) {
+
+        // getting the database and all the values within that
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        // adding the new values that are passed through the parameters
+        contentValues.put(tourPoint, updatedNameOfTourPoint);
+        contentValues.put(tourLocation, updatedLocationOfTourPoint);
+        contentValues.put(tourPreferredSeason, updatedPreferredSeasonForTourPoint);
+        contentValues.put(tourMinPocketPinch, updatedMinPocketPinchForTourPoint);
+        contentValues.put(tourMinCoveredTime, updatedMinTimeToCoverTourPoint);
+
+        // updating the database
+        // if the addition was not done then result will be -1 else sth else
+        long result = db.update(tableName, contentValues, "_id = ?", new String[]{tour_id});
+
+        // We will be showing a toast message if there is any issue / success
+        if (result == -1) {
+            Toast.makeText(context, "Failed to update the Database", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "Alhamdulillah! Database Updated", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+
+    // function for updating data
+    void deleteData(String tour_id) {
+
+        // getting the database and all the values within that
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // deleting the database
+        // if the addition was not done then result will be -1 else sth else
+        long result = db.delete(tableName, "_id = ?", new String[]{tour_id});
+
+        // We will be showing a toast message if there is any issue / success
+        if (result == -1) {
+            Toast.makeText(context, "Failed to delete the element", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "Alhamdulillah! element deleted", Toast.LENGTH_SHORT).show();
+        }
     }
 }
